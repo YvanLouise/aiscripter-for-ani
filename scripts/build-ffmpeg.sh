@@ -7,6 +7,7 @@ CROSS=x86_64-w64-mingw32-
 JOBS="${BUILD_JOBS:-$(nproc)}"
 export CC="${CROSS}gcc" CXX="${CROSS}g++" AR="${CROSS}ar" RANLIB="${CROSS}ranlib" STRIP="${CROSS}strip"
 export PKG_CONFIG_LIBDIR="$PREFIX/lib/pkgconfig"
+export GIT_CEILING_DIRECTORIES="$BASE/work"
 node "$ROOT/scripts/fetch-ffmpeg-sources.mjs"
 mkdir -p "$BASE/work" "$PREFIX" "$BASE/runtime" "$BASE/corresponding-source"
 for library in zlib x264 vpx opus ffmpeg; do
@@ -36,6 +37,7 @@ make -j"$JOBS"
 make install
 
 cd "$BASE/work/ffmpeg"
+node -p 'require(process.argv[1]).ffmpeg.version' "$ROOT/build-resources/ffmpeg-sources.json" > VERSION
 ./configure --arch=x86_64 --target-os=mingw32 --cross-prefix="$CROSS" \
   --pkg-config=pkg-config --pkg-config-flags=--static --prefix="$PREFIX" \
   --disable-autodetect --disable-network --disable-shared --enable-static --disable-debug --disable-doc --disable-ffplay --disable-ffprobe \

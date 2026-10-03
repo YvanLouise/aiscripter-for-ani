@@ -39,6 +39,10 @@ if (command === 'create') {
 } else if (command === 'runs') {
   const result = await api(`/repos/${repository}/actions/runs?per_page=8`);
   console.log(JSON.stringify(result.workflow_runs.map(run => ({ id: run.id, name: run.name, status: run.status, conclusion: run.conclusion, url: run.html_url })), null, 2));
+} else if (command === 'cancel') {
+  const response = await fetch(`https://api.github.com/repos/${repository}/actions/runs/${argument}/cancel`, { method: 'POST', headers });
+  if (response.status !== 202) throw new Error(`Workflow cancellation failed: HTTP ${response.status}`);
+  console.log('Workflow cancelled.');
 } else if (command === 'jobs') {
   const result = await api(`/repos/${repository}/actions/runs/${argument}/jobs`);
   console.log(JSON.stringify(result.jobs.map(job => ({ id: job.id, name: job.name, status: job.status, conclusion: job.conclusion, steps: job.steps.map(step => ({ name: step.name, status: step.status, conclusion: step.conclusion })) })), null, 2));
