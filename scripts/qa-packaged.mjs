@@ -93,7 +93,7 @@ try {
   const version = (await command(encoder, ['-version'])).stdout.toString();
   const content = path.join(resources, 'content');
   for (const file of ['LICENSE', 'AIS-icon.ico', 'docs/README.md', 'schema/project-v3.schema.json', 'src/sdk/index.ts']) await fs.access(path.join(content, file));
-  const project = path.join(base, 'project');
+  const project = path.join(base, '工程 测试');
   const source = path.join(content, 'examples/default-animation');
   await fs.cp(source, project, { recursive: true });
   const mcpReport = await mcp(project);
@@ -102,30 +102,31 @@ try {
   const report = await editor([`--user-data-dir=${path.join(base, 'profile')}`, `--ani-qa-screenshot=${screenshot}`, '--ani-qa-default-demo'], screenshot);
   const checks = ['startup', 'storyboard', 'allChaptersRendered', 'seamMapping', 'deterministic', 'previewIsolation', 'nativeTitleEditing', 'independentInstances', 'saveReopen', 'mediaStrip', 'freshCopy', 'editsPreserved'];
   assert(checks.every(key => report.defaultDemoProbe?.[key]) && report.state.url === 'app://editor/index.html' && report.state.hasAni && report.guestState.stageWidth === 1920 && report.guestState.pngLength > 10000, 'Packaged native editor verification incomplete');
-  console.log(`Packaged native editor: ${checks.length} checks passed. Exporting 540 frames...`);
+  console.log(`Packaged native editor: ${checks.length} checks passed.`);
   if (!process.argv.includes('--smoke')) {
-  assert(version.includes(`ffmpeg version ${manifest.version}`), 'Unexpected bundled FFmpeg version');
-  const video = path.join(output, 'default-animation.mp4');
-  await editor([`--user-data-dir=${path.join(base, 'export-profile')}`, `--ani-qa-project=${project}`, `--ani-qa-export=${video}`, '--ani-qa-output=1920x1080@30'], video, 300000);
-  const probe = (await command(encoder, ['-hide_banner', '-i', video, '-map', '0:v:0', '-f', 'null', '-'])).stderr;
-  const frames = Number([...probe.matchAll(/frame=\s*(\d+)/g)].at(-1)?.[1]);
-  const duration = probe.match(/Duration: (\d+):(\d+):(\d+\.\d+)/);
-  const seconds = duration ? Number(duration[1]) * 3600 + Number(duration[2]) * 60 + Number(duration[3]) : NaN;
-  assert(frames === 540 && /Video: h264/.test(probe) && /1920x1080/.test(probe) && /30 fps/.test(probe) && /Audio: aac/.test(probe) && Math.abs(seconds - 18) < 0.04, `Invalid packaged MP4: ${probe.slice(-4000)}`);
-  const pcm = (await command(encoder, ['-v', 'error', '-i', video, '-map', '0:a:0', '-f', 's16le', '-ac', '1', '-ar', '44100', '-'])).stdout;
-  let square = 0;
-  for (let index = 0; index + 1 < pcm.length; index += 2) square += (pcm.readInt16LE(index) / 32768) ** 2;
-  const audioRms = Math.sqrt(square / (pcm.length / 2));
-  assert(audioRms > 0.001 && pcm.length > 44100 * 17.9 * 2, 'Packaged score is missing or silent');
-  for (const format of ['webm', 'gif']) {
-    const file = path.join(output, `short.${format}`);
-    await editor([`--user-data-dir=${path.join(base, `${format}-profile`)}`, `--ani-qa-project=${project}`, `--ani-qa-export=${file}`, '--ani-qa-output=480x270@30', '--ani-qa-range=0:8'], file);
-    const decoded = (await command(encoder, ['-hide_banner', '-i', file, '-map', '0:v:0', '-f', 'null', '-'])).stderr;
-    assert(Number([...decoded.matchAll(/frame=\s*(\d+)/g)].at(-1)?.[1]) === 8, `Invalid ${format} frame count`);
-    if (format === 'webm') assert(/Video: vp9/.test(decoded) && /Audio: opus/.test(decoded), 'WebM codecs missing');
-  }
-  await fs.writeFile(path.join(output, 'verification.json'), JSON.stringify({ executable, ffmpeg: manifest.version, mcp: mcpReport, nativeChecks: checks, export: { frames, width: 1920, height: 1080, fps: 30, seconds, audioRms, h264: true, aac: true, webm: true, gif: true } }, null, 2));
-  console.log('Packaged export: 540 frames, 1080p30, H.264/AAC and audible score; WebM/Opus and GIF passed.');
+    assert(version.includes(`ffmpeg version ${manifest.version}`), 'Unexpected bundled FFmpeg version');
+    console.log('Exporting 540 frames...');
+    const video = path.join(output, 'default-animation.mp4');
+    await editor([`--user-data-dir=${path.join(base, 'export-profile')}`, `--ani-qa-project=${project}`, `--ani-qa-export=${video}`, '--ani-qa-output=1920x1080@30'], video, 300000);
+    const probe = (await command(encoder, ['-hide_banner', '-i', video, '-map', '0:v:0', '-f', 'null', '-'])).stderr;
+    const frames = Number([...probe.matchAll(/frame=\s*(\d+)/g)].at(-1)?.[1]);
+    const duration = probe.match(/Duration: (\d+):(\d+):(\d+\.\d+)/);
+    const seconds = duration ? Number(duration[1]) * 3600 + Number(duration[2]) * 60 + Number(duration[3]) : NaN;
+    assert(frames === 540 && /Video: h264/.test(probe) && /1920x1080/.test(probe) && /30 fps/.test(probe) && /Audio: aac/.test(probe) && Math.abs(seconds - 18) < 0.04, `Invalid packaged MP4: ${probe.slice(-4000)}`);
+    const pcm = (await command(encoder, ['-v', 'error', '-i', video, '-map', '0:a:0', '-f', 's16le', '-ac', '1', '-ar', '44100', '-'])).stdout;
+    let square = 0;
+    for (let index = 0; index + 1 < pcm.length; index += 2) square += (pcm.readInt16LE(index) / 32768) ** 2;
+    const audioRms = Math.sqrt(square / (pcm.length / 2));
+    assert(audioRms > 0.001 && pcm.length > 44100 * 17.9 * 2, 'Packaged score is missing or silent');
+    for (const format of ['webm', 'gif']) {
+      const file = path.join(output, `short.${format}`);
+      await editor([`--user-data-dir=${path.join(base, `${format}-profile`)}`, `--ani-qa-project=${project}`, `--ani-qa-export=${file}`, '--ani-qa-output=480x270@30', '--ani-qa-range=0:8'], file);
+      const decoded = (await command(encoder, ['-hide_banner', '-i', file, '-map', '0:v:0', '-f', 'null', '-'])).stderr;
+      assert(Number([...decoded.matchAll(/frame=\s*(\d+)/g)].at(-1)?.[1]) === 8, `Invalid ${format} frame count`);
+      if (format === 'webm') assert(/Video: vp9/.test(decoded) && /Audio: opus/.test(decoded), 'WebM codecs missing');
+    }
+    await fs.writeFile(path.join(output, 'verification.json'), JSON.stringify({ executable, ffmpeg: manifest.version, mcp: mcpReport, nativeChecks: checks, export: { frames, width: 1920, height: 1080, fps: 30, seconds, audioRms, h264: true, aac: true, webm: true, gif: true } }, null, 2));
+    console.log('Packaged export: 540 frames, 1080p30, H.264/AAC and audible score; WebM/Opus and GIF passed.');
   } else console.log('Installed application smoke checks passed.');
 } finally {
   for (const timer of timers) clearTimeout(timer);

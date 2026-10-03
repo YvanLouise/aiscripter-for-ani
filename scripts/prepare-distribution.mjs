@@ -13,6 +13,7 @@ await fs.access(path.join(root, '.build/ffmpeg/third-party-sources.tar.gz'));
 const expectedSources = JSON.parse(await fs.readFile(path.join(root, 'build-resources/ffmpeg-sources.json'), 'utf8'));
 for (const [name, source] of Object.entries(expectedSources)) if (ffmpeg.sources[name]?.commit !== source.commit) throw new Error(`Incorrect FFmpeg source version: ${name}`);
 await fs.mkdir(destination, { recursive: true });
+for (const file of ['Electron-LICENSE', 'Electron-LICENSES.chromium.html']) await fs.unlink(path.join(destination, file)).catch(error => { if (error.code !== 'ENOENT') throw error; });
 await fs.copyFile(path.join(root, 'LICENSE'), path.join(destination, 'AIScripter-MIT.txt'));
 const lock = JSON.parse(await fs.readFile(path.join(root, 'package-lock.json'), 'utf8'));
 const notices = ['AIScripter for ani - Third-party notices', 'The application is MIT licensed. Third-party components retain their own licenses.', ffmpeg.license + ' FFmpeg: see resources/ffmpeg/README.txt and matching release source archive.'];

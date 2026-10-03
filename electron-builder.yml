@@ -59,5 +59,6 @@ nsis:
   installerIcon: AIS-icon.ico
   uninstallerIcon: AIS-icon.ico
   runAfterFinish: false
+  deleteAppDataOnUninstall: false
   license: LICENSE
   installerLanguages: [zh_CN, en_US]

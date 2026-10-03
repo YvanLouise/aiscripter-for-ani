@@ -9,7 +9,7 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const meta = JSON.parse(await fs.readFile(path.join(root, 'package.json'), 'utf8'));
 const installer = path.join(root, 'release', `AIScripter-for-ani-${meta.version}-x64-Setup.exe`);
 const base = await fs.mkdtemp(path.join(os.tmpdir(), 'aiscripter-install-qa-'));
-const install = path.join(base, 'app');
+const install = path.join(base, 'AIScripter 安装测试');
 const executable = path.join(install, 'AIScripter for ani.exe');
 const sha = bytes => createHash('sha256').update(bytes).digest('hex');
 
@@ -23,7 +23,7 @@ async function run(file, args, options = {}) {
   return Buffer.concat(output).toString();
 }
 
-const registryProbe = "$paths = @('HKCU:\\Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\*', 'HKLM:\\Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\*', 'HKLM:\\Software\\WOW6432Node\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\*'); @(Get-ItemProperty -Path $paths -ErrorAction SilentlyContinue | Where-Object { $_.DisplayName -eq 'AIScripter for ani' } | Select-Object DisplayName,InstallLocation) | ConvertTo-Json -Compress";
+const registryProbe = "[Console]::OutputEncoding = [System.Text.UTF8Encoding]::new($false); $paths = @('HKCU:\\Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\*', 'HKLM:\\Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\*', 'HKLM:\\Software\\WOW6432Node\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\*'); @(Get-ItemProperty -Path $paths -ErrorAction SilentlyContinue | Where-Object { $_.DisplayName -like 'AIScripter for ani*' } | Select-Object DisplayName,UninstallString) | ConvertTo-Json -Compress";
 let installed = false;
 try {
   await fs.access(installer);
@@ -44,7 +44,10 @@ try {
   await run(process.execPath, [path.join(root, 'scripts/qa-packaged.mjs'), executable, '--smoke']);
   const registration = await run('powershell.exe', ['-NoProfile', '-NonInteractive', '-Command', registryProbe]);
   const entries = registration.trim() ? JSON.parse(registration) : [];
-  if (![].concat(entries).some(item => path.resolve(item.InstallLocation || '.') === install)) throw new Error('Uninstall registration did not point to the test installation');
+  if (![].concat(entries).some(item => {
+    const target = item.UninstallString?.match(/^"([^"]+)"(?:\s|$)/)?.[1];
+    return target && path.resolve(path.dirname(target)).toLowerCase() === install.toLowerCase();
+  })) throw new Error(`Uninstall registration did not point to the test installation: ${registration.slice(0, 1000)}`);
 } finally {
   if (installed) {
     const uninstaller = (await fs.readdir(install)).find(name => /^Uninstall .*\.exe$/i.test(name));
