@@ -1,0 +1,51 @@
+{
+  "id": "introduction",
+  "name": "Introduction",
+  "durationFrames": 150,
+  "layers": [
+    {
+      "id": "intro-stars", "name": "Starfield WebGL", "type": "custom", "startFrame": 0, "endFrame": 150,
+      "x": 960, "y": 540, "width": 960, "height": 540, "scaleX": 2, "scaleY": 2, "rotation": 0, "opacity": 1,
+      "visible": true, "keyframes": {}, "script": "scripts/starfield.mjs", "renderer": "webgl2",
+      "params": { "density": 0.35, "blue": 0.72 }
+    },
+    {
+      "id": "intro-sun", "name": "Sun", "type": "image", "startFrame": 0, "endFrame": 150,
+      "x": 250, "y": 550, "width": 700, "height": 700, "scaleX": 1, "scaleY": 1, "rotation": 0, "opacity": 1,
+      "visible": true, "keyframes": {}, "expressions": {
+        "scaleX": "base + 0.025 * sin(2 * pi * frame / 90)",
+        "scaleY": "base + 0.025 * sin(2 * pi * frame / 90)"
+      }, "asset": "assets/sun.svg"
+    },
+    {
+      "id": "intro-accent", "name": "Accent Rule", "type": "shape", "startFrame": 0, "endFrame": 150,
+      "x": 1010, "y": 485, "width": 620, "height": 4, "scaleX": 1, "scaleY": 1, "rotation": 0, "opacity": 0.55,
+      "visible": true, "keyframes": { "scaleX": [
+        { "frame": 0, "value": 0, "easing": [0.22, 1, 0.36, 1] },
+        { "frame": 34, "value": 1 }
+      ] }, "shape": "rect", "color": "#6ba9e5"
+    },
+    {
+      "id": "intro-earth", "name": "Earth", "type": "image", "startFrame": 0, "endFrame": 150,
+      "x": 1330, "y": 610, "width": 260, "height": 260, "scaleX": 1, "scaleY": 1, "rotation": 0, "opacity": 1,
+      "visible": true, "keyframes": { "y": [
+        { "frame": 0, "value": 620, "easing": [0.42, 0, 0.58, 1] },
+        { "frame": 75, "value": 550, "easing": [0.42, 0, 0.58, 1] },
+        { "frame": 149, "value": 620 }
+      ] }, "asset": "assets/earth.svg"
+    },
+    {
+      "id": "intro-title", "name": "Main Title", "type": "text", "startFrame": 0, "endFrame": 150,
+      "x": 1010, "y": 300, "width": 1050, "height": 160, "scaleX": 1, "scaleY": 1, "rotation": 0, "opacity": 1,
+      "visible": true, "keyframes": { "opacity": [{ "frame": 0, "value": 0, "easing": [0.22, 1, 0.36, 1] }, { "frame": 24, "value": 1 }],
+        "y": [{ "frame": 0, "value": 320, "easing": [0.22, 1, 0.36, 1] }, { "frame": 24, "value": 300 }] },
+      "text": "Our Dynamic Planet", "fontSize": 90, "fontFamily": "Arial", "color": "#ffffff"
+    },
+    {
+      "id": "intro-subtitle", "name": "Subtitle", "type": "text", "startFrame": 0, "endFrame": 150,
+      "x": 1020, "y": 410, "width": 1050, "height": 100, "scaleX": 1, "scaleY": 1, "rotation": 0, "opacity": 0.9,
+      "visible": true, "keyframes": { "opacity": [{ "frame": 12, "value": 0, "easing": [0.22, 1, 0.36, 1] }, { "frame": 45, "value": 0.9 }] },
+      "text": "How Earth moves through space", "fontSize": 46, "fontFamily": "Arial", "color": "#bdd4f4"
+    }
+  ]
+}

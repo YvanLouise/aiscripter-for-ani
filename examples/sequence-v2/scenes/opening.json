@@ -1,0 +1,10 @@
+{
+  "id": "opening",
+  "name": "Opening",
+  "durationFrames": 45,
+  "clip": { "inFrame": 10, "outFrame": 45 },
+  "layers": [
+    { "id": "opening-bg", "name": "Blue background", "type": "shape", "startFrame": 0, "endFrame": 45, "x": 960, "y": 540, "width": 1920, "height": 1080, "scaleX": 1, "scaleY": 1, "rotation": 0, "opacity": 1, "visible": true, "keyframes": {}, "shape": "rect", "color": "#153b6d" },
+    { "id": "opening-title", "name": "Opening title", "type": "text", "startFrame": 0, "endFrame": 45, "x": 960, "y": 540, "width": 1300, "height": 180, "scaleX": 1, "scaleY": 1, "rotation": 0, "opacity": 1, "visible": true, "keyframes": {}, "text": "Continuous scenes", "fontSize": 90, "fontFamily": "Arial", "color": "#ffffff" }
+  ]
+}

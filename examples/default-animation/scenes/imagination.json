@@ -1,0 +1,18 @@
+{
+  "id": "imagination", "name": "03 想象 · 现在开始", "durationFrames": 180,
+  "program": { "entry": "scripts/imagination.ts", "renderer": "2d", "seed": 20261003, "params": { "accent": "#75efd3", "secondary": "#a58aff", "energy": 1 } },
+  "layers": [
+    {
+      "id": "closing-title", "name": "结束标题", "type": "text", "text": "你的创意，现在开始。",
+      "fontFamily": "Microsoft YaHei", "fontSize": 88, "fontWeight": 700, "textAlign": "center", "color": "#f0f7fc",
+      "startFrame": 0, "endFrame": 180, "x": 960, "y": 740, "width": 1450, "height": 150, "scaleX": 1, "scaleY": 1, "rotation": 0, "opacity": 1, "visible": true,
+      "keyframes": { "y": [{ "frame": 8, "value": 766, "easing": [0.22, 1, 0.36, 1] }, { "frame": 38, "value": 740 }], "opacity": [{ "frame": 8, "value": 0 }, { "frame": 34, "value": 1 }] }
+    },
+    {
+      "id": "closing-subtitle", "name": "品牌签名", "type": "text", "text": "CREATE  ·  ANIMATE  ·  IMAGINE",
+      "fontFamily": "Segoe UI", "fontSize": 26, "textAlign": "center", "letterSpacing": 5, "color": "#a2b9cd",
+      "startFrame": 0, "endFrame": 180, "x": 960, "y": 854, "width": 1350, "height": 65, "scaleX": 1, "scaleY": 1, "rotation": 0, "opacity": 1, "visible": true,
+      "keyframes": { "opacity": [{ "frame": 20, "value": 0 }, { "frame": 50, "value": 1 }] }
+    }
+  ]
+}

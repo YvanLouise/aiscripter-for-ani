@@ -1,0 +1,8 @@
+{
+  "id": "native", "name": "01 Native scene", "durationFrames": 150,
+  "layers": [
+    { "id": "native-panel", "name": "Native panel", "type": "shape", "shape": "rect", "color": "#1b3049", "cornerRadius": 36, "startFrame": 0, "endFrame": 150, "x": 960, "y": 540, "width": 1500, "height": 620, "scaleX": 1, "scaleY": 1, "rotation": 0, "opacity": 1, "visible": true, "keyframes": {} },
+    { "id": "native-title", "name": "Editable title", "type": "text", "text": "AI CREATION / NEXT", "fontSize": 92, "fontWeight": 700, "color": "#f0f6ff", "startFrame": 0, "endFrame": 150, "x": 960, "y": 440, "width": 1600, "height": 160, "scaleX": 1, "scaleY": 1, "rotation": 0, "opacity": 1, "visible": true, "keyframes": { "opacity": [{ "frame": 0, "value": 0 }, { "frame": 22, "value": 1 }], "y": [{ "frame": 0, "value": 480, "easing": [0.16, 1, 0.3, 1] }, { "frame": 30, "value": 440 }] } },
+    { "id": "native-subtitle", "name": "Subtitle", "type": "text", "text": "Native layers + typed programmable scenes", "fontSize": 40, "color": "#70dfcf", "startFrame": 0, "endFrame": 150, "x": 960, "y": 600, "width": 1600, "height": 100, "scaleX": 1, "scaleY": 1, "rotation": 0, "opacity": 1, "visible": true, "keyframes": {} }
+  ]
+}

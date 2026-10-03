@@ -1,0 +1,14 @@
+{
+  "formatVersion": 3,
+  "runtimeVersion": "1.0.0", "sdkVersion": "1.1.0", "capabilities": ["canvas-scene"],
+  "id": "aiscripter-default-motion", "name": "灵感开始流动 · AIScripter",
+  "width": 1920, "height": 1080, "fps": 30,
+  "scenes": [
+    { "id": "inspiration", "file": "scenes/inspiration.json" },
+    { "id": "craft", "file": "scenes/craft.json" },
+    { "id": "imagination", "file": "scenes/imagination.json" }
+  ],
+  "audioTracks": [{ "id": "ambient-music", "name": "原创配乐 · First Light", "clips": [
+    { "id": "first-light", "asset": "assets/first-light.wav", "startFrame": 0, "sourceInFrame": 0, "durationFrames": 540, "volume": 0.65, "fadeInFrames": 18, "fadeOutFrames": 36 }
+  ] }]
+}

@@ -1,0 +1,5 @@
+[
+  { "id": "rhythm", "label": "节奏", "detail": "从容起步，自然停留。", "style": "wave", "tag": "01 / RHYTHM" },
+  { "id": "depth", "label": "层次", "detail": "让简单元素，拥有空间。", "style": "layers", "tag": "02 / DEPTH" },
+  { "id": "color", "label": "色彩", "detail": "给每一个想法一种情绪。", "style": "color", "tag": "03 / COLOR" }
+]

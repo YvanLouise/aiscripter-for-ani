@@ -1,0 +1,8 @@
+{
+  "formatVersion": 3,
+  "runtimeVersion": "1.0.0", "sdkVersion": "1.1.0", "capabilities": ["canvas-scene", "webgl2-scene"],
+  "id": "program-scenes-demo", "name": "Program Scenes Lab",
+  "width": 1920, "height": 1080, "fps": 30,
+  "scenes": [{ "id": "native", "file": "scenes/native.json" }, { "id": "program", "file": "scenes/program.json" }],
+  "audioTracks": [{ "id": "music", "name": "Music", "clips": [{ "id": "tone", "asset": "assets/tone.wav", "startFrame": 0, "sourceInFrame": 0, "durationFrames": 450, "volume": 0.08, "loop": true }] }]
+}

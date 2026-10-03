@@ -1,0 +1,41 @@
+{
+  "id": "showcase",
+  "name": "Engine Showcase",
+  "durationFrames": 60,
+  "layers": [
+    {
+      "id": "background", "name": "Background", "type": "shape", "startFrame": 0, "endFrame": 60,
+      "x": 160, "y": 90, "width": 320, "height": 180, "scaleX": 1, "scaleY": 1, "rotation": 0, "opacity": 1, "visible": true,
+      "keyframes": {}, "shape": "rect", "color": "#12212d"
+    },
+    {
+      "id": "video", "name": "Video", "type": "video", "startFrame": 0, "endFrame": 60,
+      "x": 65, "y": 90, "width": 100, "height": 100, "scaleX": 1, "scaleY": 1, "rotation": 0, "opacity": 1, "visible": true,
+      "keyframes": {}, "asset": "assets/checker.mp4"
+    },
+    {
+      "id": "svg", "name": "Masked SVG", "type": "svg", "startFrame": 0, "endFrame": 60,
+      "x": 160, "y": 90, "width": 100, "height": 100, "scaleX": 1, "scaleY": 1, "rotation": 0, "opacity": 1, "visible": true,
+      "keyframes": { "blur": [{ "frame": 0, "value": 0 }, { "frame": 59, "value": 2 }] },
+      "asset": "assets/graphic.svg", "mask": "assets/mask.svg", "blendMode": "screen", "brightness": 1.1,
+      "bindings": { "brightness": { "asset": "assets/data.json", "path": "theme.brightness" } }
+    },
+    {
+      "id": "model", "name": "3D Model", "type": "model3d", "startFrame": 0, "endFrame": 60,
+      "x": 255, "y": 90, "width": 100, "height": 100, "scaleX": 1, "scaleY": 1, "rotation": 0, "opacity": 1, "visible": true,
+      "keyframes": { "modelYaw": [{ "frame": 0, "value": 0 }, { "frame": 59, "value": 180 }] },
+      "expressions": { "modelPitch": "base + 12 * sin(time * 2 * pi)" },
+      "asset": "assets/triangle.gltf", "modelScale": 1, "cameraDistance": 3, "cameraFov": 45, "lightIntensity": 2
+    },
+    {
+      "id": "script", "name": "Seeded JavaScript", "type": "custom", "startFrame": 0, "endFrame": 60,
+      "x": 160, "y": 90, "width": 320, "height": 180, "scaleX": 1, "scaleY": 1, "rotation": 0, "opacity": 1, "visible": true,
+      "keyframes": {}, "script": "scripts/seeded.mjs", "renderer": "2d", "params": {}
+    },
+    {
+      "id": "audio", "name": "Tone", "type": "audio", "startFrame": 0, "endFrame": 60,
+      "x": 160, "y": 90, "width": 320, "height": 180, "scaleX": 1, "scaleY": 1, "rotation": 0, "opacity": 1, "visible": true,
+      "keyframes": {}, "asset": "assets/tone.wav", "volume": 0.2
+    }
+  ]
+}

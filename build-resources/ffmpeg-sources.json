@@ -1,0 +1,7 @@
+{
+  "ffmpeg": { "repository": "FFmpeg/FFmpeg", "version": "9.0.2", "commit": "946fcce07b6dcd0331c8cc609192aeff5e1924f8" },
+  "x264": { "repository": "mirror/x264", "version": "164", "commit": "c24e06c2e184345ceb33eb20a15d1024d9fd3497" },
+  "vpx": { "repository": "webmproject/libvpx", "version": "1.15.2", "commit": "d168454ecd099805c675d4a98c66f4891373302a" },
+  "opus": { "repository": "xiph/opus", "version": "1.5.2", "commit": "ddbe48383984d56acd9e1ab6a090c54ca6b735a6" },
+  "zlib": { "repository": "madler/zlib", "version": "1.3.1", "commit": "51b7f2abdade71cd9bb0e7a373ef2610ec6f9daf" }
+}

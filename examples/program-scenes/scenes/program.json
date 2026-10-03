@@ -1,0 +1,7 @@
+{
+  "id": "program", "name": "02 Program studio", "durationFrames": 300,
+  "program": { "entry": "scripts/studio.ts", "renderer": "2d", "seed": 2026, "params": { "title": "CREATE WITH CODE", "accent": "#71dfcf", "speed": 1 } },
+  "layers": [
+    { "id": "program-caption", "name": "Editable native overlay", "type": "text", "text": "SDK 1.0 / DETERMINISTIC FRAMES / SHARED TIMELINE", "fontSize": 24, "textAlign": "left", "color": "#9db2c7", "startFrame": 0, "endFrame": 300, "x": 960, "y": 995, "width": 1640, "height": 50, "scaleX": 1, "scaleY": 1, "rotation": 0, "opacity": 1, "visible": true, "keyframes": {} }
+  ]
+}

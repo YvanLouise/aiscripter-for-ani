@@ -1,0 +1,12 @@
+{
+  "id": "main",
+  "name": "Main",
+  "durationFrames": 30,
+  "layers": [{
+    "id": "circle", "name": "Circle", "type": "shape", "startFrame": 0, "endFrame": 30,
+    "x": 160, "y": 90, "width": 80, "height": 80,
+    "scaleX": 1, "scaleY": 1, "rotation": 0, "opacity": 1, "visible": true,
+    "keyframes": {}, "shape": "ellipse", "color": "#55d5c6",
+    "bindings": { "color": { "asset": "assets/data.json", "path": "theme.circleColor" } }
+  }]
+}

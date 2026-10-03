@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aiscripter.local/schema/scene-v3",
+  "type": "object",
+  "required": ["id", "name", "durationFrames", "layers"],
+  "additionalProperties": false,
+  "properties": {
+    "id": { "$ref": "scene-v2#/properties/id" },
+    "name": { "$ref": "scene-v2#/properties/name" },
+    "durationFrames": { "$ref": "scene-v2#/properties/durationFrames" },
+    "clip": { "$ref": "scene-v2#/properties/clip" },
+    "layers": { "$ref": "scene-v2#/properties/layers" },
+    "program": {
+      "type": "object", "required": ["entry", "renderer", "seed"], "additionalProperties": false,
+      "properties": {
+        "entry": { "type": "string", "pattern": "^scripts/[A-Za-z0-9_/-]+\\.(ts|mjs)$" },
+        "renderer": { "enum": ["2d", "webgl2"] },
+        "seed": { "type": "integer", "minimum": 0, "maximum": 4294967295 },
+        "params": { "type": "object", "additionalProperties": { "type": ["number", "string", "boolean"] } },
+        "edits": { "$ref": "#/$defs/edits" }
+      }
+    }
+  },
+  "$defs": {
+    "edit": { "type": "object", "required": ["value"], "additionalProperties": false, "properties": {
+      "value": { "type": ["number", "string", "boolean"] }, "mode": { "enum": ["replace", "offset"] }, "locked": { "type": "boolean" },
+      "keyframes": { "type": "array", "maxItems": 10000, "items": { "type": "object", "required": ["frame", "value"], "additionalProperties": false, "properties": {
+        "frame": { "type": "integer", "minimum": 0 }, "value": { "type": ["number", "string", "boolean"] }, "easing": { "enum": ["linear", "smooth", "hold"] }
+      } } }
+    } },
+    "parameters": { "type": "object", "maxProperties": 1000, "propertyNames": { "pattern": "^(?!__proto__$|constructor$|prototype$).{1,256}$" }, "additionalProperties": { "$ref": "#/$defs/edit" } },
+    "edits": { "type": "object", "additionalProperties": false, "properties": {
+      "parameters": { "$ref": "#/$defs/parameters" },
+      "objects": { "type": "object", "maxProperties": 10000, "propertyNames": { "pattern": "^(?!__proto__$|constructor$|prototype$).{1,256}$" }, "additionalProperties": {
+        "type": "object", "required": ["type", "properties"], "additionalProperties": false, "properties": {
+          "type": { "enum": ["group", "shape", "text", "image", "surface"] }, "locked": { "type": "boolean" }, "properties": { "$ref": "#/$defs/parameters" }
+        }
+      } },
+      "instances": { "type": "object", "maxProperties": 1000, "propertyNames": { "pattern": "^(?!__proto__$|constructor$|prototype$).{1,256}$" }, "additionalProperties": {
+        "type": "object", "required": ["parameters"], "additionalProperties": false, "properties": { "parameters": { "$ref": "#/$defs/parameters" } }
+      } }
+    } }
+  }
+}

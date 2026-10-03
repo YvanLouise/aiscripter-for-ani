@@ -1,0 +1,35 @@
+name: ffmpeg-build
+on:
+  workflow_dispatch:
+  workflow_call:
+permissions:
+  contents: read
+jobs:
+  ffmpeg:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/cache@v4
+        id: vendor
+        with:
+          path: |
+            .build/ffmpeg/runtime
+            .build/ffmpeg/third-party-sources.tar.gz
+          key: ffmpeg-win64-${{ hashFiles('build-resources/ffmpeg-sources.json', 'scripts/build-ffmpeg.sh', 'scripts/fetch-ffmpeg-sources.mjs', 'scripts/ffmpeg-manifest.mjs') }}
+      - if: steps.vendor.outputs.cache-hit != 'true'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y mingw-w64 gcc-mingw-w64-x86-64 g++-mingw-w64-x86-64 nasm autoconf automake libtool pkg-config make
+          bash scripts/build-ffmpeg.sh
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ffmpeg-win64
+          path: |
+            .build/ffmpeg/runtime
+            .build/ffmpeg/third-party-sources.tar.gz
+          retention-days: 30
+          if-no-files-found: error

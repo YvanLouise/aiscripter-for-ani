@@ -1,0 +1,56 @@
+appId: io.github.yvanlouise.aiscripter-for-ani
+productName: AIScripter for ani
+artifactName: AIScripter-for-ani-${version}-${arch}-Setup.${ext}
+directories:
+  output: release
+  buildResources: build-resources
+asar: true
+asarUnpack:
+  - node_modules/esbuild/**
+  - node_modules/@esbuild/**
+files:
+  - dist/**
+  - dist-electron/**
+  - dist-tools/aiscripter-mcp.cjs
+  - src/sdk/index.ts
+  - package.json
+  - '!node_modules/@ffmpeg-installer/**'
+extraResources:
+  - from: docs
+    to: content/docs
+  - from: examples
+    to: content/examples
+    filter: ['**/*', '!**/.aiscripter/**', '!**/.aiscripter-backups/**']
+  - from: schema
+    to: content/schema
+  - from: src/sdk
+    to: content/src/sdk
+    filter: ['index.ts']
+  - from: AIS-icon.ico
+    to: content/AIS-icon.ico
+  - from: AIS-icon.png
+    to: content/AIS-icon.png
+  - from: LICENSE
+    to: content/LICENSE
+  - from: .build/notices
+    to: licenses
+  - from: .build/ffmpeg/runtime
+    to: ffmpeg
+win:
+  target: [{ target: nsis, arch: [x64] }]
+  icon: AIS-icon.ico
+  signExecutable: false
+  requestedExecutionLevel: asInvoker
+nsis:
+  oneClick: false
+  perMachine: false
+  allowElevation: true
+  allowToChangeInstallationDirectory: true
+  createDesktopShortcut: true
+  createStartMenuShortcut: true
+  shortcutName: AIScripter for ani
+  installerIcon: AIS-icon.ico
+  uninstallerIcon: AIS-icon.ico
+  runAfterFinish: false
+  license: LICENSE
+  installerLanguages: [zh_CN, en_US]

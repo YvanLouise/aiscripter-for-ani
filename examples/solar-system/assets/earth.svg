@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="400" viewBox="0 0 400 400">
+  <defs><radialGradient id="sea" cx="34%" cy="25%"><stop stop-color="#7ad6ff"/><stop offset=".52" stop-color="#1670b5"/><stop offset="1" stop-color="#0b274d"/></radialGradient><clipPath id="clip"><circle cx="200" cy="200" r="184"/></clipPath></defs>
+  <circle cx="200" cy="200" r="192" fill="#87cbff" opacity=".18"/>
+  <circle cx="200" cy="200" r="184" fill="url(#sea)"/>
+  <g clip-path="url(#clip)" fill="#7bb178"><path d="M67 133l55-42 50 9 25 25-21 24 32 27-6 40-44 24-31-13-20-52-39-10z"/><path d="M212 80l56 7 19 33-19 25 40 34-12 54-49 4-24-45-38-22 8-38z"/><path d="M92 268l65 7 28 22-8 56-46 36-40-42z"/><path d="M261 270l69-16 38 40-11 49-65-7z"/></g>
+  <circle cx="200" cy="200" r="184" fill="none" stroke="#8ddfff" stroke-width="4" opacity=".75"/>
+</svg>

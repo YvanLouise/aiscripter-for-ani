@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aiscripter.local/schema/project-v3",
+  "type": "object",
+  "required": ["formatVersion", "id", "name", "width", "height", "fps", "scenes", "runtimeVersion", "sdkVersion", "capabilities"],
+  "additionalProperties": false,
+  "properties": {
+    "formatVersion": { "const": 3 },
+    "runtimeVersion": { "const": "1.0.0" },
+    "sdkVersion": { "enum": ["1.0.0", "1.1.0"] },
+    "capabilities": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "enum": ["canvas-scene", "webgl2-scene"] } },
+    "id": { "$ref": "project-v2#/properties/id" },
+    "name": { "$ref": "project-v2#/properties/name" },
+    "width": { "$ref": "project-v2#/properties/width" },
+    "height": { "$ref": "project-v2#/properties/height" },
+    "fps": { "$ref": "project-v2#/properties/fps" },
+    "scenes": { "$ref": "project-v2#/properties/scenes" },
+    "audioTracks": { "$ref": "project-v2#/properties/audioTracks" }
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "id": "inspiration", "name": "01 灵感 · 开始流动", "durationFrames": 180,
+  "program": { "entry": "scripts/inspiration.ts", "renderer": "2d", "seed": 20261003, "params": { "accent": "#75efd3", "secondary": "#a58aff", "energy": 1 } },
+  "layers": [
+    {
+      "id": "intro-title", "name": "主标题 · 可以直接编辑", "type": "text", "text": "让灵感，\n开始流动。",
+      "fontFamily": "Microsoft YaHei", "fontSize": 108, "fontWeight": 700, "textAlign": "left", "lineHeight": 1.28, "color": "#f0f7fc",
+      "startFrame": 0, "endFrame": 180, "x": 620, "y": 382, "width": 920, "height": 280, "scaleX": 1, "scaleY": 1, "rotation": 0, "opacity": 1, "visible": true,
+      "keyframes": { "y": [{ "frame": 0, "value": 430, "easing": [0.22, 1, 0.36, 1] }, { "frame": 38, "value": 382 }], "opacity": [{ "frame": 0, "value": 0 }, { "frame": 28, "value": 1 }] }
+    },
+    {
+      "id": "intro-subtitle", "name": "开场文案", "type": "text", "text": "从一个想法，到一段完整的动画。",
+      "fontFamily": "Microsoft YaHei", "fontSize": 32, "textAlign": "left", "color": "#a2b9cd",
+      "startFrame": 0, "endFrame": 180, "x": 590, "y": 605, "width": 860, "height": 70, "scaleX": 1, "scaleY": 1, "rotation": 0, "opacity": 1, "visible": true,
+      "keyframes": { "opacity": [{ "frame": 12, "value": 0 }, { "frame": 45, "value": 1 }] }
+    }
+  ]
+}

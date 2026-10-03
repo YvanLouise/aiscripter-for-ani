@@ -1,0 +1,9 @@
+{
+  "formatVersion": 1,
+  "id": "engine-showcase",
+  "name": "Engine Showcase",
+  "width": 320,
+  "height": 180,
+  "fps": 30,
+  "scenes": [{ "id": "showcase", "file": "scenes/showcase.json" }]
+}

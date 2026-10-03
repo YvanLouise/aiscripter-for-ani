@@ -1,0 +1,10 @@
+{
+  "id": "closing",
+  "name": "Closing",
+  "durationFrames": 40,
+  "clip": { "inFrame": 5, "outFrame": 30 },
+  "layers": [
+    { "id": "closing-bg", "name": "Green background", "type": "shape", "startFrame": 0, "endFrame": 40, "x": 960, "y": 540, "width": 1920, "height": 1080, "scaleX": 1, "scaleY": 1, "rotation": 0, "opacity": 1, "visible": true, "keyframes": {}, "shape": "rect", "color": "#125746" },
+    { "id": "closing-title", "name": "Closing title", "type": "text", "startFrame": 0, "endFrame": 40, "x": 960, "y": 540, "width": 1300, "height": 180, "scaleX": 1, "scaleY": 1, "rotation": 0, "opacity": 1, "visible": true, "keyframes": {}, "text": "One global soundtrack", "fontSize": 76, "fontFamily": "Arial", "color": "#ffffff" }
+  ]
+}

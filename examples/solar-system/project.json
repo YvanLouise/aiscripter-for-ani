@@ -1,0 +1,12 @@
+{
+  "formatVersion": 1,
+  "id": "solar-system-demo",
+  "name": "Solar System Demo",
+  "width": 1920,
+  "height": 1080,
+  "fps": 30,
+  "scenes": [
+    { "id": "introduction", "file": "scenes/introduction.json" },
+    { "id": "orbit", "file": "scenes/orbit.json" }
+  ]
+}

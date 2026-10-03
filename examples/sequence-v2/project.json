@@ -1,0 +1,17 @@
+{
+  "formatVersion": 2,
+  "id": "sequence-v2-example",
+  "name": "Continuous Sequence Example",
+  "width": 1920,
+  "height": 1080,
+  "fps": 30,
+  "scenes": [
+    { "id": "opening", "file": "scenes/opening.json" },
+    { "id": "closing", "file": "scenes/closing.json" }
+  ],
+  "audioTracks": [
+    { "id": "music", "name": "Music", "clips": [
+      { "id": "tone", "asset": "assets/tone.wav", "startFrame": 0, "sourceInFrame": 0, "durationFrames": 60, "volume": 0.35, "muted": false, "fadeInFrames": 6, "fadeOutFrames": 6 }
+    ] }
+  ]
+}

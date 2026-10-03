@@ -1,0 +1,9 @@
+{
+  "formatVersion": 1,
+  "id": "transparent-layer-example",
+  "name": "Transparent Layer",
+  "width": 320,
+  "height": 180,
+  "fps": 30,
+  "scenes": [{ "id": "main", "file": "scenes/main.json" }]
+}
