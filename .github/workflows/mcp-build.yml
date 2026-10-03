@@ -1,0 +1,23 @@
+name: mcp-build
+on:
+  workflow_dispatch:
+  workflow_call:
+permissions:
+  contents: read
+jobs:
+  launcher:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          sudo apt-get update
+          sudo apt-get install -y gcc-mingw-w64-x86-64
+          mkdir -p .build/mcp
+          x86_64-w64-mingw32-gcc -municode -O2 -s -Wall -Wextra src/launcher/mcp.c -o '.build/mcp/AIScripter MCP.exe'
+      - uses: actions/upload-artifact@v4
+        with:
+          name: mcp-win64
+          path: .build/mcp/
+          retention-days: 30
+          if-no-files-found: error

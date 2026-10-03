@@ -5,6 +5,7 @@ import { createHash } from 'node:crypto';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const destination = path.join(root, '.build/notices');
+await fs.access(path.join(root, '.build/mcp/AIScripter MCP.exe')).catch(() => { throw new Error('Download the mcp-win64 workflow artifact into .build/mcp before packaging.'); });
 const binary = await fs.readFile(path.join(root, '.build/ffmpeg/runtime/ffmpeg.exe')).catch(() => { throw new Error('Build or download the ffmpeg-build workflow artifact into .build/ffmpeg before packaging. See docs/distribution.zh-CN.md.'); });
 const ffmpeg = JSON.parse(await fs.readFile(path.join(root, '.build/ffmpeg/runtime/manifest.json'), 'utf8'));
 if (createHash('sha256').update(binary).digest('hex') !== ffmpeg.sha256) throw new Error('Bundled FFmpeg checksum mismatch');

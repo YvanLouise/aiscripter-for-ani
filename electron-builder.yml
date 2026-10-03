@@ -8,6 +8,9 @@ asar: true
 asarUnpack:
   - node_modules/esbuild/**
   - node_modules/@esbuild/**
+extraFiles:
+  - from: .build/mcp/AIScripter MCP.exe
+    to: AIScripter MCP.exe
 files:
   - dist/**
   - dist-electron/**

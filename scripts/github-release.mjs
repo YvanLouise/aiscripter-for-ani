@@ -24,7 +24,7 @@ async function api(route, options = {}) {
   if (!response.ok) throw new Error(`GitHub HTTP ${response.status}: ${data.message}`);
   return data;
 }
-const [command, argument] = process.argv.slice(2);
+const [command, argument, artifactName = 'ffmpeg-win64'] = process.argv.slice(2);
 if (command === 'create') {
   const account = await api('/user');
   if (account.login.toLowerCase() !== owner.toLowerCase()) throw new Error('Authenticated account differs from repository owner');
@@ -57,27 +57,27 @@ if (command === 'create') {
   console.log(text.slice(-16000));
 } else if (command === 'download') {
   const result = await api(`/repos/${repository}/actions/runs/${argument}/artifacts`);
-  const artifact = result.artifacts.find(item => item.name === 'ffmpeg-win64' && !item.expired);
-  if (!artifact) throw new Error('Completed ffmpeg-win64 artifact is required');
+  const artifact = result.artifacts.find(item => item.name === artifactName && !item.expired);
+  if (!artifact) throw new Error(`Completed ${artifactName} artifact is required`);
   const response = await fetch(artifact.archive_download_url, { headers, redirect: 'manual' });
   if (response.status !== 302) throw new Error(`Artifact download failed: HTTP ${response.status}`);
-  const destination = path.join(root, '.build/ffmpeg-workflow.zip');
+  const destination = path.join(root, '.build', `${artifactName}-workflow.zip`);
   await fs.mkdir(path.dirname(destination), { recursive: true });
-  const size = artifact.size_in_bytes, chunkSize = Math.ceil(size / 8);
-  const parts = await Promise.all(Array.from({ length: 8 }, async (_, index) => {
+  const size = artifact.size_in_bytes, count = size > 8000000 ? 8 : 1, chunkSize = Math.ceil(size / count);
+  const parts = await Promise.all(Array.from({ length: count }, async (_, index) => {
     const start = index * chunkSize, end = Math.min(size - 1, start + chunkSize - 1), file = destination + `.part${index}`;
     try {
       await promisify(execFile)(process.platform === 'win32' ? 'curl.exe' : 'curl', ['--fail', '--silent', '--show-error', '--retry', '3', '--retry-all-errors', '--max-time', '900', '--range', `${start}-${end}`, '--output', file, response.headers.get('location')], { windowsHide: true, timeout: 1800000 });
     } catch { throw new Error(`Artifact download part ${index} failed; rerun download.`); }
     const bytes = await fs.readFile(file);
     if (bytes.length !== end - start + 1) throw new Error(`Artifact range ${index} has incorrect length`);
-    console.log(`Downloaded part ${index + 1}/8`);
+    console.log(`Downloaded part ${index + 1}/${count}`);
     return bytes;
   }));
   const archive = Buffer.concat(parts);
   if (artifact.digest && `sha256:${createHash('sha256').update(archive).digest('hex')}` !== artifact.digest) throw new Error('GitHub artifact digest mismatch');
   await fs.writeFile(destination, archive);
-  for (let index = 0; index < 8; index++) await fs.unlink(destination + `.part${index}`);
+  for (let index = 0; index < count; index++) await fs.unlink(destination + `.part${index}`);
   console.log(destination);
 } else if (command === 'publish') {
   const tag = `v${meta.version}`, notes = await fs.readFile(path.join(root, 'docs/release-notes.md'), 'utf8');

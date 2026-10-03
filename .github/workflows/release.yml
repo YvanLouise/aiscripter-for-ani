@@ -8,8 +8,10 @@ permissions:
 jobs:
   encoder:
     uses: ./.github/workflows/ffmpeg-build.yml
+  mcp:
+    uses: ./.github/workflows/mcp-build.yml
   windows:
-    needs: encoder
+    needs: [encoder, mcp]
     runs-on: windows-latest
     timeout-minutes: 30
     permissions:
@@ -24,6 +26,10 @@ jobs:
         with:
           name: ffmpeg-win64
           path: .build/ffmpeg
+      - uses: actions/download-artifact@v4
+        with:
+          name: mcp-win64
+          path: .build/mcp
       - name: Check version tag
         if: github.event_name == 'push'
         shell: bash

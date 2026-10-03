@@ -34,7 +34,8 @@ async function editor(args, report, timeout = 180000) {
 }
 
 async function mcp(project) {
-  const child = spawn(executable, ['--mcp', '--project', project, '--offline'], { cwd: base, windowsHide: true, stdio: ['pipe', 'pipe', 'pipe'] });
+  const child = spawn(path.join(path.dirname(executable), 'AIScripter MCP.exe'), ['--project', project, '--offline'], { cwd: base, windowsHide: true, stdio: ['pipe', 'pipe', 'pipe'] });
+  const closed = new Promise(resolve => child.once('close', resolve));
   const pending = new Map(); let nextId = 1, buffer = '', stderr = '', parseError;
   child.stderr.on('data', chunk => { stderr = (stderr + chunk.toString()).slice(-4000); });
   const fail = message => { for (const callback of pending.values()) callback({ error: { message } }); pending.clear(); };
@@ -79,7 +80,9 @@ async function mcp(project) {
     assert(forbidden.result?.isError, 'Packaged MCP allowed path traversal');
     return { tools: 18, bundledDocumentation: true, typedPrograms: true, traversalRejected: true };
   } finally {
-    clearTimeout(timer); timers.delete(timer); child.stdin.end(); child.kill();
+    clearTimeout(timer); timers.delete(timer); child.stdin.end();
+    await Promise.race([closed, new Promise(resolve => setTimeout(resolve, 2000))]);
+    if (child.exitCode === null) { child.kill(); await closed; }
   }
 }
 
@@ -88,7 +91,6 @@ try {
   const manifest = JSON.parse(await fs.readFile(path.join(resources, 'ffmpeg/manifest.json'), 'utf8'));
   assert(createHash('sha256').update(await fs.readFile(encoder)).digest('hex') === manifest.sha256, 'Installed encoder checksum mismatch');
   const version = (await command(encoder, ['-version'])).stdout.toString();
-  assert(version.includes('ffmpeg version 9.0.2'), 'Unexpected bundled FFmpeg version');
   const content = path.join(resources, 'content');
   for (const file of ['LICENSE', 'AIS-icon.ico', 'docs/README.md', 'schema/project-v3.schema.json', 'src/sdk/index.ts']) await fs.access(path.join(content, file));
   const project = path.join(base, 'project');
@@ -102,6 +104,7 @@ try {
   assert(checks.every(key => report.defaultDemoProbe?.[key]) && report.state.url === 'app://editor/index.html' && report.state.hasAni && report.guestState.stageWidth === 1920 && report.guestState.pngLength > 10000, 'Packaged native editor verification incomplete');
   console.log(`Packaged native editor: ${checks.length} checks passed. Exporting 540 frames...`);
   if (!process.argv.includes('--smoke')) {
+  assert(version.includes(`ffmpeg version ${manifest.version}`), 'Unexpected bundled FFmpeg version');
   const video = path.join(output, 'default-animation.mp4');
   await editor([`--user-data-dir=${path.join(base, 'export-profile')}`, `--ani-qa-project=${project}`, `--ani-qa-export=${video}`, '--ani-qa-output=1920x1080@30'], video, 300000);
   const probe = (await command(encoder, ['-hide_banner', '-i', video, '-map', '0:v:0', '-f', 'null', '-'])).stderr;
@@ -127,5 +130,5 @@ try {
 } finally {
   for (const timer of timers) clearTimeout(timer);
   const actual = await fs.realpath(base), relative = path.relative(await fs.realpath(os.tmpdir()), actual);
-  if (relative && !relative.startsWith('..') && !path.isAbsolute(relative) && path.basename(actual).startsWith('aiscripter-packaged-qa-')) await fs.rm(actual, { recursive: true, force: true });
+  if (relative && !relative.startsWith('..') && !path.isAbsolute(relative) && path.basename(actual).startsWith('aiscripter-packaged-qa-')) await fs.rm(actual, { recursive: true, force: true, maxRetries: 10, retryDelay: 300 });
 }

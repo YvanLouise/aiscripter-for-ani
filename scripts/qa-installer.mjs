@@ -35,7 +35,7 @@ try {
   await run(installer, ['/S', '/currentuser', `/D=${install}`], { windowsVerbatimArguments: true });
   installed = true;
   await fs.access(executable);
-  for (const file of ['AIScripter for ani.exe', 'resources/app.asar', 'resources/ffmpeg/ffmpeg.exe']) {
+  for (const file of ['AIScripter for ani.exe', 'AIScripter MCP.exe', 'resources/app.asar', 'resources/ffmpeg/ffmpeg.exe']) {
     const original = await fs.readFile(path.join(root, 'release/win-unpacked', file));
     const copy = await fs.readFile(path.join(install, file));
     if (sha(original) !== sha(copy)) throw new Error(`Installer changed ${file}`);
