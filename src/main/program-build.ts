@@ -30,7 +30,9 @@ function typeCheck(entries: string[], sources: Record<string, string>): BuildDia
   const options: ts.CompilerOptions = { target: ts.ScriptTarget.ES2022, module: ts.ModuleKind.ESNext,
     moduleResolution: ts.ModuleResolutionKind.Bundler, strict: true, allowJs: true, noEmit: true,
     skipLibCheck: true, types: [], lib: ['lib.es2022.d.ts', 'lib.dom.d.ts'], allowImportingTsExtensions: true };
-  const base = ts.createCompilerHost(options), libDirectory = path.dirname(ts.getDefaultLibFilePath(options)).replaceAll('\\', '/');
+  const appRoot = path.resolve(__dirname, '..');
+  const base = ts.createCompilerHost(options), libDirectory = (appRoot.endsWith('.asar')
+    ? path.join(path.dirname(appRoot), 'compiler/typescript/lib') : path.dirname(ts.getDefaultLibFilePath(options))).replaceAll('\\', '/');
   const normalize = (name: string) => name.replaceAll('\\', '/');
   const read = (name: string): string | undefined => {
     name = normalize(name);
@@ -40,6 +42,7 @@ function typeCheck(entries: string[], sources: Record<string, string>): BuildDia
     return undefined;
   };
   const host: ts.CompilerHost = { ...base, getCurrentDirectory: () => virtualRoot, useCaseSensitiveFileNames: () => true, getCanonicalFileName: normalize,
+    getDefaultLibLocation: () => libDirectory, getDefaultLibFileName: () => `${libDirectory}/lib.es2022.full.d.ts`,
     fileExists: name => read(name) !== undefined, readFile: read,
     getSourceFile: (name, language) => { const text = read(name); return text === undefined ? undefined : ts.createSourceFile(name, text, language, true); },
     resolveModuleNames: (names, containing) => names.map(name => {

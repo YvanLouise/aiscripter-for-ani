@@ -10,14 +10,14 @@
 
 ## 安装版 MCP
 
-安装后的可执行文件也可以启动本机 stdio MCP：
+安装目录中的 `AIScripter MCP.exe` 可以启动本机 stdio MCP：
 
 ```json
 {
   "mcpServers": {
     "aiscripter": {
-      "command": "C:\\Users\\YOUR_NAME\\AppData\\Local\\Programs\\AIScripter for ani\\AIScripter for ani.exe",
-      "args": ["--mcp", "--project", "D:\\animations\\my-project"]
+      "command": "C:\\Users\\YOUR_NAME\\AppData\\Local\\Programs\\AIScripter for ani\\AIScripter MCP.exe",
+      "args": ["--project", "D:\\animations\\my-project"]
     }
   }
 }
@@ -29,20 +29,23 @@
 
 Windows 构建机需要 Node.js 22、npm 和 Git。先取得版本匹配的 FFmpeg 构建产物：
 
-1. 在 GitHub Actions 中运行 `ffmpeg-build`，等待成功。
-2. 下载 `ffmpeg-win64` artifact，解压到源码目录 `.build/ffmpeg/`。应得到 `runtime/ffmpeg.exe`、`runtime/manifest.json` 和 `third-party-sources.tar.gz`。
+1. 在 GitHub Actions 中运行 `ffmpeg-build` 和 `mcp-build`，等待成功。
+2. 下载 `ffmpeg-win64` artifact，解压到源码目录 `.build/ffmpeg/`。应得到 `runtime/ffmpeg.exe`、`runtime/manifest.json` 和 `third-party-sources.tar.gz`。下载 `mcp-win64`，解压到 `.build/mcp/`，应得到 `AIScripter MCP.exe`。
 3. 执行：
 
 ```powershell
 npm ci
 npm run dist:win
 npm run test:packaged
+npm run test:installer
 node scripts/release-checksums.mjs
 ```
 
 输出目录为 `release/`。`win-unpacked/` 是可直接运行的打包目录；`*-Setup.exe` 是支持选择安装位置的 NSIS 安装程序。也可用 `npm run pack:win` 仅构建打包目录。打包过程检查编码器 SHA-256、源代码版本、对应源码包和第三方许可文件，缺少时拒绝打包。
 
 `test:packaged` 直接运行打包后的应用：检查默认工程、三个程序场景、本机 TypeScript 编译、MCP、文档和资源、缩略图与波形、预览隔离及保存重开，完整导出 540 帧 1080p30 H.264/AAC，并检查 WebM/Opus 和 GIF。截图、视频与报告在 `.qa/packaged/`。它使用临时工程和配置，不修改个人工程。
+
+`test:installer` 在临时目录执行真实 NSIS 安装、MCP 和编辑器验证，再卸载并检查注册表清理。请在没有注册本软件安装版的 Windows 环境运行；发现已有安装时会停止，以免覆盖个人安装。
 
 ## 编码器源码和许可证
 

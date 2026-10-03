@@ -5,6 +5,7 @@ directories:
   output: release
   buildResources: build-resources
 asar: true
+afterPack: scripts/after-pack.cjs
 asarUnpack:
   - node_modules/esbuild/**
   - node_modules/@esbuild/**
@@ -19,6 +20,9 @@ files:
   - package.json
   - '!node_modules/@ffmpeg-installer/**'
 extraResources:
+  - from: node_modules/typescript/lib
+    to: compiler/typescript/lib
+    filter: ['lib*.d.ts']
   - from: docs
     to: content/docs
   - from: examples

@@ -24,6 +24,5 @@ for (const [relative, item] of Object.entries(lock.packages)) {
   const licenses = (await fs.readdir(directory)).filter(file => /^(LICENSE|LICENCE|COPYING)(\.|$)/i.test(file));
   for (const file of licenses) if ((await fs.stat(path.join(directory, file))).isFile()) notices.push(await fs.readFile(path.join(directory, file), 'utf8'));
 }
-for (const file of ['LICENSE', 'LICENSES.chromium.html']) await fs.copyFile(path.join(root, 'node_modules/electron/dist', file), path.join(destination, `Electron-${file}`));
 await fs.writeFile(path.join(destination, 'THIRD_PARTY_NOTICES.txt'), notices.join('\n\n'));
 console.log('Distribution verified: FFmpeg source identity/checksum, source archive, MIT and dependency notices.');

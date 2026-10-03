@@ -397,7 +397,7 @@ function ffmpegPath(): string | undefined {
   const candidates = app.isPackaged ? [path.join(process.resourcesPath, 'ffmpeg', 'ffmpeg.exe'), 'ffmpeg'] : ['ffmpeg'];
   try { candidates.push(require('@ffmpeg-installer/ffmpeg').path as string); } catch { /* Optional local binary. */ }
   for (const candidate of candidates) {
-    const result = spawnSync(candidate, ['-hide_banner', '-encoders'], { encoding: 'utf8', timeout: 5000 });
+    const result = spawnSync(candidate, ['-hide_banner', '-encoders'], { encoding: 'utf8', timeout: 5000, windowsHide: true });
     if (result.status === 0 && result.stdout.includes('libx264')) { detectedFfmpeg = candidate; return candidate; }
   }
   detectedFfmpeg = null;
@@ -488,7 +488,7 @@ async function waveform(project: LoadedProject, asset: string, width: number, so
   const executable = ffmpegPath();
   if (!executable) throw new Error('FFmpeg unavailable');
   const result = await new Promise<Buffer>((resolve, reject) => {
-    const child = spawn(executable, ['-hide_banner', '-loglevel', 'error', '-ss', String(sourceInFrame / project.manifest.fps), '-t', String(durationFrames / project.manifest.fps), '-i', file, '-filter_complex', `showwavespic=s=${Math.max(64, Math.min(2048, Math.round(width)))}x80:colors=0x5baeff`, '-frames:v', '1', '-f', 'image2pipe', '-vcodec', 'png', 'pipe:1'], { stdio: ['ignore', 'pipe', 'pipe'] });
+    const child = spawn(executable, ['-hide_banner', '-loglevel', 'error', '-ss', String(sourceInFrame / project.manifest.fps), '-t', String(durationFrames / project.manifest.fps), '-i', file, '-filter_complex', `showwavespic=s=${Math.max(64, Math.min(2048, Math.round(width)))}x80:colors=0x5baeff`, '-frames:v', '1', '-f', 'image2pipe', '-vcodec', 'png', 'pipe:1'], { stdio: ['ignore', 'pipe', 'pipe'], windowsHide: true });
     const chunks: Buffer[] = [];
     let size = 0;
     let stderr = '';
@@ -588,7 +588,7 @@ async function exportProject(project: LoadedProject, kind: ExportKind, sceneInde
         '-vcodec', 'png', '-i', 'pipe:0', ...audio.inputs,
         ...(audio.filter ? ['-filter_complex', audio.filter, '-map', '0:v', '-map', '[audioout]', '-c:a', kind === 'webm' ? 'libopus' : 'aac', '-b:a', '192k'] : []),
         ...codec, '-t', String((range!.end - range!.start) / frozen.manifest.fps), destination,
-      ], { stdio: ['pipe', 'ignore', 'pipe'] });
+      ], { stdio: ['pipe', 'ignore', 'pipe'], windowsHide: true });
       let stderr = '';
       let inputError: Error | undefined;
       encoder.stdin.on('error', error => { inputError = error; });
@@ -804,7 +804,7 @@ app.whenReady().then(async () => {
     const extension = path.extname(source).toLowerCase();
     const executable = ffmpegPath();
     if (!executable) throw new Error('FFmpeg unavailable');
-    const probe = spawnSync(executable, ['-hide_banner', '-i', source], { encoding: 'utf8', timeout: 5000 });
+    const probe = spawnSync(executable, ['-hide_banner', '-i', source], { encoding: 'utf8', timeout: 5000, windowsHide: true });
     const match = probe.stderr?.match(/Duration: (\d+):(\d+):(\d+(?:\.\d+)?)/);
     if (!match) throw new Error('Unable to read audio duration');
     const seconds = Number(match[1]) * 3600 + Number(match[2]) * 60 + Number(match[3]);

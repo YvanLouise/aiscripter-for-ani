@@ -6,6 +6,8 @@
 
 安装版内置运行时、FFmpeg、SDK、文档和示例，不需要另装 Node.js。首次启动打开 18 秒默认动画《灵感开始流动》，可编辑标题和组件，也可接入外部 AI 的本机 MCP。源码采用 [MIT 许可](LICENSE)，第三方组件保留各自许可。
 
+![AIScripter 编辑器和默认动画](docs/images/editor.png)
+
 A Windows-first desktop prototype for animation projects created and revised by external AI coding agents. The editor does not contain an AI model. It opens a documented project folder, lets a person edit the animation, notices external file changes, and exports still frames or MP4 video.
 
 ## Run locally

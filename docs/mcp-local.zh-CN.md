@@ -4,7 +4,7 @@ AIScripter 提供本机 **stdio MCP** 创作服务。外部 AI 可以读取未�
 
 ## 构建与接入
 
-安装版可以直接将 `AIScripter for ani.exe` 配为服务器命令，参数为 `["--mcp", "--project", "工程绝对路径"]`，无需安装 Node.js。完整配置示例见[Windows 安装与发布](distribution.zh-CN.md#安装版-mcp)。以下构建命令和 Node.js 配置适用于源码开发。
+安装版可以直接将安装目录中的 `AIScripter MCP.exe` 配为服务器命令，参数为 `["--project", "工程绝对路径"]`，无需安装 Node.js。完整配置示例见[Windows 安装与发布](distribution.zh-CN.md#安装版-mcp)。以下构建命令和 Node.js 配置适用于源码开发。
 
 在 AIScripter 源码目录先执行：
 
@@ -36,7 +36,7 @@ npm run build:mcp
 
 编辑器打开工程时，工具读取当前草稿，包含人工尚未保存的属性和脚本。编辑器关闭时可以读取磁盘，但必须明确增加 `--offline` 才能提交磁盘修改；截图和短片需要打开编辑器。如果存在会话描述文件但连接失败，返回 `EDITOR_UNAVAILABLE`，不会偷偷改读磁盘。异常退出后，可重开编辑器恢复会话，或在确认旧进程已结束后使用 `--offline`。同一工程只能由一个编辑器拥有会话。
 
-**源码版 MCP 客户端直接运行 `node dist-tools/aiscripter-mcp.cjs`；安装版运行应用可执行文件并传入 `--mcp`。** 不要把 `npm run build:mcp` 或 `npm run` 配为服务器命令：npm 的启动输出会占用 stdout，而 stdio MCP 的 stdout 专用于 JSON-RPC。服务自身不在 stdout 打印日志。源码更新后重新运行 `npm run build:mcp`。
+**源码版 MCP 客户端直接运行 `node dist-tools/aiscripter-mcp.cjs`；安装版运行 `AIScripter MCP.exe`。** 不要把 `npm run build:mcp` 或 `npm run` 配为服务器命令：npm 的启动输出会占用 stdout，而 stdio MCP 的 stdout 专用于 JSON-RPC。服务自身不在 stdout 打印日志。源码更新后重新运行 `npm run build:mcp`。
 
 ## 工具
 

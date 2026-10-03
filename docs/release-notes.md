@@ -11,7 +11,7 @@ Windows x64 动画编辑器，面向外部 AI 创建和续改工程。
 
 ### 安装
 
-下载 `AIScripter-for-ani-0.1.0-x64-Setup.exe`。不需要额外安装 Node.js 或 FFmpeg。应用更新及卸载保留用户数据。安装版 MCP 使用 `AIScripter for ani.exe --mcp --project <工程目录>`。
+下载 `AIScripter-for-ani-0.1.0-x64-Setup.exe`。不需要额外安装 Node.js 或 FFmpeg。应用更新及卸载保留用户数据。安装版 MCP 使用 `AIScripter MCP.exe --project <工程目录>`。
 
 本版安装程序未签名，Windows 可能提示未识别发布者。下载后可用 `Get-FileHash <安装包路径> -Algorithm SHA256` 与 `SHA256SUMS.txt` 核对。
 

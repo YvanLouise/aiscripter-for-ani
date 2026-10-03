@@ -75,7 +75,7 @@ async function mcp(project) {
     assert(inspected.scenes.length === 3 && inspected.manifest.id === 'aiscripter-default-motion', 'Packaged MCP project inspection failed');
     assert(JSON.parse(await tool('validate_project', { strict_resources: true })).valid, 'Bundled project resources missing');
     const built = JSON.parse(await tool('build_project', { draft_revision: inspected.draftRevision }));
-    assert(built.ok && Object.keys(built.programs).length === 3, `Packaged TypeScript/esbuild failed: ${JSON.stringify(built)}`);
+    assert(built.ok && Object.keys(built.programs).length === 3, `Packaged TypeScript/esbuild failed: ${JSON.stringify(built).slice(0, 3000)}`);
     const forbidden = await call('tools/call', { name: 'read_project_file', arguments: { relative_path: '../package.json' } });
     assert(forbidden.result?.isError, 'Packaged MCP allowed path traversal');
     return { tools: 18, bundledDocumentation: true, typedPrograms: true, traversalRejected: true };
