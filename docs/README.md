@@ -1,11 +1,12 @@
 # AIScripter 项目文档
 
-适用软件：当前源码版 AIScripter for ani `0.1.0`。编辑器读取 v1/v2/v3；新建空工程采用 v2，添加程序场景时采用 v3（SDK 1.1.0，兼容 1.0.0）。软件版本与工程格式版本是两件事：判断文件格式应读取 `project.json.formatVersion`。
+适用软件：AIScripter for ani `0.1.0`。编辑器读取 v1/v2/v3；新建空工程采用 v2，添加程序场景时采用 v3（SDK 1.1.0，兼容 1.0.0）。软件版本与工程格式版本是两件事：判断文件格式应读取 `project.json.formatVersion`。
 
 ## 从这里开始
 
 | 读者与任务 | 文档 |
 | --- | --- |
+| 安装软件、制作安装包和发布版本 | [Windows 安装与发布](distribution.zh-CN.md) |
 | 外部 AI 第一次创建或续改工程 | [外部 AI 创作与续改规范](external-ai-workflow.zh-CN.md) |
 | 查询字段、时间计算、脚本接口和限制 | [v2 工程格式中文规范](project-format-v2.zh-CN.md) |
 | 查询简明英文契约 | [Project format v2](project-format-v2.md) |

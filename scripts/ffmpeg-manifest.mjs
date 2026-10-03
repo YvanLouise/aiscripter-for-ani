@@ -11,5 +11,10 @@ await fs.writeFile(path.join(base, 'corresponding-source/README.txt'), notice);
 for (const [name, file] of [['x264', 'COPYING'], ['vpx', 'LICENSE'], ['opus', 'COPYING'], ['zlib', 'LICENSE']]) {
   await fs.copyFile(path.join(base, 'work', name, file), path.join(base, 'runtime', `${name}-LICENSE.txt`));
 }
+for (const name of ['mingw-w64-common', 'gcc-mingw-w64-base']) {
+  const destination = `${name}-COPYRIGHT.txt`;
+  await fs.copyFile(`/usr/share/doc/${name}/copyright`, path.join(base, 'runtime', destination));
+  await fs.copyFile(`/usr/share/doc/${name}/copyright`, path.join(base, 'corresponding-source', destination));
+}
 const binary = await fs.readFile(path.join(base, 'runtime/ffmpeg.exe'));
 await fs.writeFile(path.join(base, 'runtime/manifest.json'), JSON.stringify({ version: '9.0.2', license: 'GPL-3.0-or-later', sha256: createHash('sha256').update(binary).digest('hex'), sources }, null, 2));

@@ -25,7 +25,8 @@
     "prepare:distribution": "node scripts/prepare-distribution.mjs",
     "pack:win": "npm run build && npm run prepare:distribution && electron-builder --win --x64 --dir --publish never",
     "dist:win": "npm run build && npm run prepare:distribution && electron-builder --win nsis --x64 --publish never",
-    "test:packaged": "node scripts/qa-packaged.mjs"
+    "test:packaged": "node scripts/qa-packaged.mjs",
+    "test:installer": "node scripts/qa-installer.mjs"
   },
   "dependencies": {
     "@modelcontextprotocol/server": "^2.1.0",

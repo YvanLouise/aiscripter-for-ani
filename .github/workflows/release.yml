@@ -1,0 +1,50 @@
+name: release
+on:
+  workflow_dispatch:
+  push:
+    tags: ['v*']
+permissions:
+  contents: read
+jobs:
+  encoder:
+    uses: ./.github/workflows/ffmpeg-build.yml
+  windows:
+    needs: encoder
+    runs-on: windows-latest
+    timeout-minutes: 30
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - uses: actions/download-artifact@v4
+        with:
+          name: ffmpeg-win64
+          path: .build/ffmpeg
+      - name: Check version tag
+        if: github.event_name == 'push'
+        shell: bash
+        run: node -e 'if (process.env.GITHUB_REF_NAME !== "v" + require("./package.json").version) process.exit(1)'
+      - run: npm ci
+      - run: npm test
+      - run: npm run dist:win
+      - run: npm run test:packaged
+      - run: npm run test:installer
+      - run: node scripts/release-checksums.mjs
+      - uses: actions/upload-artifact@v4
+        with:
+          name: windows-release
+          path: |
+            release/*-Setup.exe
+            release/third-party-sources.tar.gz
+            release/SHA256SUMS.txt
+          retention-days: 30
+          if-no-files-found: error
+      - name: Publish verified preview release
+        if: github.event_name == 'push'
+        run: node scripts/github-release.mjs publish
+        env:
+          GITHUB_TOKEN: ${{ github.token }}

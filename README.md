@@ -1,10 +1,16 @@
 # AIScripter for ani
 
+## Windows 安装版
+
+[下载安装包](https://github.com/YvanLouise/aiscripter-for-ani/releases) · [中文文档](docs/README.md) · [安装与打包](docs/distribution.zh-CN.md) · [外部 AI 创作规范](docs/external-ai-workflow.zh-CN.md)
+
+安装版内置运行时、FFmpeg、SDK、文档和示例，不需要另装 Node.js。首次启动打开 18 秒默认动画《灵感开始流动》，可编辑标题和组件，也可接入外部 AI 的本机 MCP。源码采用 [MIT 许可](LICENSE)，第三方组件保留各自许可。
+
 A Windows-first desktop prototype for animation projects created and revised by external AI coding agents. The editor does not contain an AI model. It opens a documented project folder, lets a person edit the animation, notices external file changes, and exports still frames or MP4 video.
 
 ## Run locally
 
-Requirements: Node.js 20 or later and npm. MP4 export uses an `ffmpeg` executable on `PATH` with `libx264`, or the Windows binary installed by the npm dependency. Check a system encoder with `ffmpeg -hide_banner -encoders`.
+Source development requirements: Node.js 22 or later and npm. MP4 export uses an `ffmpeg` executable on `PATH` with `libx264`, or the development-only Windows binary installed by the npm dependency. The installer ships a separately built encoder with matching source archives. Check a system encoder with `ffmpeg -hide_banner -encoders`.
 
 On Windows, double-click **Start AIScripter.cmd** in this folder. It installs dependencies when needed, builds the current source, and opens the editor. The first launch needs network access for npm packages.
 
@@ -39,4 +45,4 @@ Legacy custom scripts use a fresh module worker per frame in a sandboxed Electro
 
 - The editor supports text, shape, image, SVG, video, audio, GLB/glTF, and Canvas 2D/WebGL2 custom layers. Numeric keyframes support linear or cubic Bezier interpolation, and numeric expressions support frame-based formulas. Project-local JSON can bind text, color, visual filters, 3D view controls, and custom parameters. Visual layers support masks, blend modes, filters, crop, text styling, and basic shadows. Scene and global audio clips support fades, loops, volume, and mute. Layer locks, layer ordering, resource browsing and repair, project search, history snapshots, and disk-version comparison are available.
 - Video and 3D rendering depend on Chromium codec and WebGL support. Scene audio gain is evaluated across visible frames; export approximates changing gain within 0.001. v3 supports reusable local Canvas components and per-object human overrides. Simulation snapshots, a new Three.js adapter, state transitions, multi-project references and automatic merge remain pending.
-- MP4 encoding requires a local FFmpeg binary. The npm fallback includes a GPLv3 Windows build for development; distribution and licensing must be reviewed before making an installer.
+- The installer includes FFmpeg 9.0.2 with GPL-3.0-or-later licensing and complete corresponding sources in the same release. The application is MIT licensed; third-party components retain their licenses. The first installer is unsigned and is published as a preview release.
